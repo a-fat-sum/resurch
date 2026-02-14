@@ -3,3 +3,4 @@ uvicorn
 supabase
 sentence-transformers
 python-dotenv
+httpx[http2]
