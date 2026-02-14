@@ -1,6 +1,5 @@
 fastapi
 uvicorn
 supabase
+sentence-transformers
 python-dotenv
-pydantic
--r ../requirements.txt

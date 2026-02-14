@@ -34,8 +34,11 @@ Use this guide to deploy your Web MVP to the cloud.
 6.  Click **Deploy**.
 
 ## 3. Final Configuration
-1.  **Clerk**: Go to Clerk Dashboard -> **Configure** -> **Domains**. Add your new Vercel domain.
-2.  **Supabase**: Go to Supabase Dashboard -> **Authentication** -> **URL Configuration**. Add your Vercel domain to "Site URL" and "Redirect URLs".
+1.  **Clerk (Important Correction)**:
+    *   **Stay in Development Mode**: It turns out Clerk **requires** a custom top-level domain (like `.com`) for Production instances. Since we are using a free `vercel.app` subdomain, we must stick to the **"Development"** instance.
+    *   **Impact**: Your Vercel app will work perfectly, but you will see a "Development Mode" banner at the bottom of the screen. This is normal for free-tier MVPs.
+    *   **Action**: Ensure your **Vercel Environment Variables** are using the **Development Keys** (starting with `pk_test_...` and `sk_test_...`), NOT production keys.
+2.  **Supabase**: Go to Supabase Dashboard -> **Authentication** -> **URL Configuration**. Add your Vercel domain (e.g. `https://resurch.vercel.app`) to "Site URL" and "Redirect URLs".
 
 ## 4. Daily Automation (GitHub Actions)
 1.  Go to your GitHub Repo -> **Settings** -> **Secrets and variables** -> **Actions**.
