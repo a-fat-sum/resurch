@@ -4,3 +4,4 @@ supabase
 sentence-transformers
 python-dotenv
 httpx[http2]
+huggingface-hub<1.0.0
