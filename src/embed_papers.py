@@ -29,11 +29,17 @@ def generate_embeddings(
     texts = [f"{p.get('title', '')} [SEP] {p.get('abstract', '')}" for p in papers]
     ids = [p.get('id') for p in papers]
 
-    print(f"Loading model: {model_name}...")
-    model = SentenceTransformer(model_name)
+    print(f"Loading FastEmbed model: {model_name}...")
+    # FastEmbed uses list of strings generator
+    from fastembed import TextEmbedding
+    
+    # We force the same model as backend
+    model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
     print(f"Generating embeddings for {len(texts)} papers...")
-    embeddings = model.encode(texts, batch_size=batch_size, show_progress_bar=True, convert_to_numpy=True)
+    # model.embed returns a generator, convert to list then numpy
+    embeddings_list = list(model.embed(texts, batch_size=batch_size))
+    embeddings = np.array(embeddings_list)
 
     # Save embeddings
     os.makedirs(output_dir, exist_ok=True)

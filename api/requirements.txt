@@ -1,7 +1,6 @@
 fastapi
 uvicorn
 supabase
-sentence-transformers
+fastembed
 python-dotenv
 httpx[http2]
-huggingface-hub<1.0.0

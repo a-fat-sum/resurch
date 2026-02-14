@@ -1,5 +1,5 @@
 arxiv
-sentence-transformers
+fastembed
 pandas
 numpy
 tqdm
