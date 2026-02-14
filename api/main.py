@@ -44,8 +44,10 @@ def read_root():
     return {"message": "Resurch API is running"}
 
 # Load model globally for better performance and to avoid file access issues
-from sentence_transformers import SentenceTransformer
-model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+from fastembed import TextEmbedding
+# model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+print("Loading FastEmbed model...")
+model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 @app.get("/api/v1/search", response_model=List[Paper])
 def search_papers(q: str, limit: int = 10):
@@ -54,7 +56,8 @@ def search_papers(q: str, limit: int = 10):
     """
     try:
         # Generate embedding
-        vector = model.encode(q).tolist()
+        # FastEmbed returns a generator, so we take the first item
+        vector = list(model.embed([q]))[0].tolist()
         
         # Call RPC
         response = supabase.rpc(
