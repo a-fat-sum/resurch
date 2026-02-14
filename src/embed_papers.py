@@ -1,7 +1,7 @@
 import json
 import os
 import numpy as np
-from sentence_transformers import SentenceTransformer
+
 from tqdm import tqdm
 
 def generate_embeddings(
