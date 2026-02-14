@@ -1,0 +1,37 @@
+name: Daily ArXiv Ingestion
+
+on:
+  schedule:
+    # Run at 08:00 UTC every day
+    - cron: '0 8 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  ingest-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install supabase
+
+      - name: Ingest Papers (ArXiv)
+        run: python src/ingest_arxiv.py
+
+      - name: Generate Embeddings
+        run: python src/embed_papers.py
+
+      - name: Upload to Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python src/migrate_to_supabase.py
